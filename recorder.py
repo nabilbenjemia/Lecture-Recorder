@@ -4,16 +4,21 @@ from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 from obswebsocket import obsws, requests
 import time
+import os
 
+TUM_USERNAME = os.getenv("TUM_USERNAME")
+TUM_PASSWORD = os.getenv("TUM_PASSWORD")
+OBS_WS_PASSWORD = os.getenv("OBS_WS_PASSWORD")
 # --- 1. Open lecture page ---
 browser = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
 browser.get("https://live.rbg.tum.de/login")
 print("Firefox opened. Waiting...")
 # Optional: login automatically (you’ll need to handle TUM login page)
-# browser.find_element(By.ID, "username").send_keys("your_tum_id")
-# browser.find_element(By.ID, "password").send_keys("your_password")
 #
 browser.find_element("link text", "TUM Login").click()
+
+browser.find_element(By.ID, "username").send_keys(TUM_USERNAME)
+browser.find_element(By.ID, "password").send_keys(TUM_PASSWORD)
 
 browser.find_element(By.ID, "btnLogin").click()
 # Navigate to the lecture link
